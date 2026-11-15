@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AegisCare – Elderly Care &amp; Medication Management</title>
+<style>
+:root{font-size:18px}body.big{font-size:24px}
+body{font-family:system-ui,sans-serif;margin:0;background:#fff;color:#111;line-height:1.5}
+main{max-width:56rem;margin:auto;padding:1rem}
+a.skip{position:absolute;left:-999px}a.skip:focus{left:1rem;top:1rem;background:#ff0;padding:.5rem;z-index:9}
+section,form{border:2px solid #0b3d91;border-radius:12px;padding:1rem;margin:1rem 0}
+button{font:inherit;min-height:44px;padding:.4rem 1rem;margin:.2rem;border-radius:8px;border:2px solid #0b3d91;background:#0b3d91;color:#fff;cursor:pointer}
+button.alt{background:#fff;color:#0b3d91}
+input,select{font:inherit;min-height:44px;margin:.2rem 0;padding:.2rem .5rem;width:100%;box-sizing:border-box;border:2px solid #555;border-radius:8px}
+label{display:block;font-weight:600;margin-top:.5rem}
+:focus-visible{outline:4px solid #f90;outline-offset:2px}
+li{margin:.4rem 0}[hidden]{display:none!important}
+#status{font-weight:700;padding:.5rem;background:#e8f0fe;border-radius:8px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<main id="main">
+<header>
+  <h1>AegisCare</h1>
+  <p>Medicines, appointments and family updates in one shared, passcode-protected place.</p>
+  <button type="button" id="big" class="alt" aria-pressed="false">Larger text</button>
+  <button type="button" id="logout" class="alt" hidden>Sign out</button>
+</header>
+<div id="status" role="status" aria-live="polite">Welcome. Sign in or create a care circle.</div>
+
+<div id="auth">
+  <form id="formLogin" aria-labelledby="h-login">
+    <h2 id="h-login">Sign in</h2>
+    <label for="l-id">Care circle code</label><input id="l-id" name="circleId" required autocomplete="off">
+    <label for="l-pw">Passcode</label><input id="l-pw" name="passcode" type="password" required autocomplete="current-password">
+    <button type="submit">Sign in</button>
+  </form>
+  <form id="formCreate" aria-labelledby="h-create">
+    <h2 id="h-create">Create a care circle (for the elderly person)</h2>
+    <label for="c-el">Name</label><input id="c-el" name="elder" required>
+    <label for="c-em">Email for reminders</label><input id="c-em" name="email" type="email" required>
+    <label for="c-pw">Choose a passcode (6+ characters)</label><input id="c-pw" name="passcode" type="password" minlength="6" required autocomplete="new-password">
+    <button type="submit">Create circle</button>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <p id="who"></p>
+  <section aria-labelledby="h-today">
+    <h2 id="h-today">Today's medicines</h2>
+    <p id="score"></p>
+    <button type="button" id="speak" class="alt">Read today's schedule aloud</button>
+    <button type="button" id="sum" class="alt">Update for family (AI summary)</button>
+    <ul id="today"></ul>
+  </section>
+  <section aria-labelledby="h-meds"><h2 id="h-meds">All medicines</h2><ul id="meds"></ul></section>
+  <section aria-labelledby="h-appts"><h2 id="h-appts">Upcoming appointments</h2><ul id="appts"></ul></section>
+  <div id="editor">
+    <form id="formMed" aria-labelledby="h-addmed">
+      <h2 id="h-addmed">Add a medicine</h2>
+      <label for="m-n">Medicine name</label><input id="m-n" name="name" required>
+      <label for="m-d">Dosage (e.g. 1 tablet, 5 ml)</label><input id="m-d" name="dosage" required>
+      <label for="m-t">Times, 24-hour, comma separated</label><input id="m-t" name="times" placeholder="08:00, 20:00" required>
+      <label for="m-s">Tablets in stock (optional, enables refill alerts)</label><input id="m-s" name="stock" type="number" min="0">
+      <button type="submit">Add medicine</button>
+    </form>
+    <form id="formAppt" aria-labelledby="h-addap">
+      <h2 id="h-addap">Add a doctor appointment</h2>
+      <label for="a-t">Title</label><input id="a-t" name="title" required>
+      <label for="a-d">Doctor (optional)</label><input id="a-d" name="doctor">
+      <label for="a-a">Date and time</label><input id="a-a" name="at" type="datetime-local" required>
+      <button type="submit">Add appointment</button>
+    </form>
+  </div>
+  <div id="ownerOnly">
+    <section aria-labelledby="h-mem"><h2 id="h-mem">Who has access</h2><ul id="members"></ul></section>
+    <form id="formMember" aria-labelledby="h-addmem">
+      <h2 id="h-addmem">Invite a caretaker or family member</h2>
+      <label for="b-n">Name</label><input id="b-n" name="name" required>
+      <label for="b-e">Email</label><input id="b-e" name="email" type="email" required>
+      <label for="b-r">Access</label>
+      <select id="b-r" name="role"><option value="caretaker">Caretaker (can edit)</option><option value="family">Family (view only)</option></select>
+      <button type="submit">Create passcode</button>
+    </form>
+    <section aria-labelledby="h-out"><h2 id="h-out">Recent reminder emails</h2><ul id="outbox"></ul></section>
+  </div>
+</div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
