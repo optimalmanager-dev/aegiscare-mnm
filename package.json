@@ -1,0 +1,10 @@
+{
+  "name": "aegiscare",
+  "version": "1.0.0",
+  "description": "Elderly care & medication management platform with passcode-based shared access and email reminders",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "test": "node --test" },
+  "engines": { "node": ">=20" },
+  "dependencies": { "nodemailer": "^6.9.16" },
+  "license": "MIT"
+}
